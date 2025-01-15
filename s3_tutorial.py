@@ -1,6 +1,7 @@
 import boto3
 from dotenv import load_dotenv
 import os
+import mimetypes
 
 load_dotenv()
 
@@ -17,6 +18,8 @@ def upload_file(file_name, bucket_name, object_name=None):
     if object_name is None:
         object_name = file_name
 
+    # 파일의 content type을 확인하고 s3에 알려준다
+    content_type= mimetypes.guess_type(file_name)[0]
     try:
         s3.upload_file(file_name, bucket_name, object_name)
     except Exception as e:
@@ -38,6 +41,6 @@ def download_file(bucket_name, object_name, file_name=None):
     return True
 
 # 파일 업로드 예시
-upload_file('abc.png', 'likelion12bucket')
+upload_file('./media/1234.png', 'likelion12bucket')
 # 파일 다운로드 예시
-download_file('likelion12bucket', 'abc.png', './media/abc_downloaded.jpg')
+download_file('likelion12bucket', 'abc.png', './media/1234_downloaded.jpg')
